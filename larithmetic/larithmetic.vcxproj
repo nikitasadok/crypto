@@ -144,9 +144,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="comparisons.cpp" />
     <ClCompile Include="larithmetic.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="comparisons.h" />
     <ClInclude Include="larithmetic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

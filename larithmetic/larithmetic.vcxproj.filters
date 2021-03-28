@@ -18,9 +18,15 @@
     <ClCompile Include="larithmetic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="comparisons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="larithmetic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="comparisons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

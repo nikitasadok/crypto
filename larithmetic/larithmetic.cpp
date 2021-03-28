@@ -98,10 +98,6 @@ void BigInt::removeLeadingZeros() {
 	}
 }
 
-// 12345678
-// 87654321
-// 0000 * 4321
-// 0000 * 432
 void BigInt::clearNumber() {
 	removeLeadingZeros();
 	if (isZero()) {
@@ -251,127 +247,6 @@ istream& operator >> (istream& in, BigInt& bigInt) {
 	bigInt = BigInt(s);
 	return in;
 }
-
-
-
-/*
- * comparing
- */
-bool operator == (BigInt bigInt1, BigInt bigInt2) {
-	if (bigInt1.isNegative != bigInt2.isNegative) {
-		return false;
-	}
-	if (bigInt1.digits.size() != bigInt2.digits.size()) {
-		return false;
-	}
-	for (long long i = 0; i < (long long)bigInt1.digits.size(); i++) {
-		if (bigInt1.digits[i] != bigInt2.digits[i]) {
-			return false;
-		}
-	}
-	return true;
-}
-
-bool operator == (BigInt bigInt1, long long int2) {
-	return bigInt1 == BigInt(int2);
-}
-
-bool operator == (long long int1, BigInt bigInt2) {
-	return BigInt(int1) == bigInt2;
-}
-
-
-bool operator != (BigInt bigInt1, BigInt bigInt2) {
-	return !(bigInt1 == bigInt2);
-}
-
-bool operator != (BigInt bigInt1, long long int2) {
-	return bigInt1 != BigInt(int2);
-}
-
-bool operator != (long long int1, BigInt bigInt2) {
-	return BigInt(int1) != bigInt2;
-}
-
-
-bool operator > (BigInt bigInt1, BigInt bigInt2) {
-	if (bigInt1.isNegative && !bigInt2.isNegative) {
-		return false;
-	}
-	if (!bigInt1.isNegative && bigInt2.isNegative) {
-		return true;
-	}
-
-	if (!bigInt1.isNegative) {
-		if (bigInt1.digits.size() > bigInt2.digits.size()) {
-			return true;
-		}
-		if (bigInt1.digits.size() < bigInt2.digits.size()) {
-			return false;
-		}
-		for (long long i = bigInt1.digits.size() - 1; i >= 0; i--) {
-			if (bigInt1.digits[i] > bigInt2.digits[i]) {
-				return true;
-			}
-			if (bigInt1.digits[i] < bigInt2.digits[i]) {
-				return false;
-			}
-		}
-		return false;
-	}
-	else {
-		return bigInt2.abs() > bigInt1.abs();
-	}
-}
-
-bool operator > (BigInt bigInt1, long long int2) {
-	return bigInt1 > BigInt(int2);
-}
-
-bool operator > (long long int1, BigInt bigInt2) {
-	return BigInt(int1) > bigInt2;
-}
-
-
-bool operator < (BigInt bigInt1, BigInt bigInt2) {
-	return bigInt2 > bigInt1;
-}
-
-bool operator < (BigInt bigInt1, long long int2) {
-	return bigInt1 < BigInt(int2);
-}
-
-bool operator < (long long int1, BigInt bigInt2) {
-	return BigInt(int1) < bigInt2;
-}
-
-
-bool operator >= (BigInt bigInt1, BigInt bigInt2) {
-	return bigInt1 > bigInt2 || bigInt1 == bigInt2;
-}
-
-bool operator >= (BigInt bigInt1, long long int2) {
-	return bigInt1 >= BigInt(int2);
-}
-
-bool operator >= (long long int1, BigInt bigInt2) {
-	return BigInt(int1) >= bigInt2;
-}
-
-
-bool operator <= (BigInt bigInt1, BigInt bigInt2) {
-	return bigInt1 < bigInt2 || bigInt1 == bigInt2;
-}
-
-bool operator <= (BigInt bigInt1, long long int2) {
-	return bigInt1 <= BigInt(int2);
-}
-
-bool operator <= (long long int1, BigInt bigInt2) {
-	return BigInt(int1) <= bigInt2;
-}
-
-
 
 /*
  * +, -, *, /
@@ -707,9 +582,6 @@ pair<BigInt, BigInt> solveSimpleSystem(vector< vector<BigInt> > sys) {
 }
 
 
-
-
-
 BigInt gcd(BigInt a, BigInt b) {
 	if (a == 0) {
 		return b;
@@ -955,40 +827,6 @@ pair<BigInt, BigInt> factorization2Primes(BigInt n, long long countRetry = 10) {
 	}
 	return { -1, -1 };
 }
-
-
-//pair<BigInt, BigInt> cipolla(BigInt a, BigInt p, long long countRetry = 10) {
-//	if (countRetry == 0) {
-//		return { -1, -1 };
-//	}
-//
-//	BigInt b = randBigInt(p);
-//	BigInt w = (b * b - a).mathMod(p);
-//
-//	if (w == 0) {
-//		BigInt c = p - b;
-//		if (c < b) {
-//			swap(c, b);
-//		}
-//		return { b, c };
-//	}
-//	else {
-//		if (legendre(w, p) == 1) {
-//			return cipolla(a, p, countRetry - 1);
-//		}
-//		else {
-//			SqrtPolynomial2 tmp(b, 1, w);
-//			SqrtPolynomial2 ans1_ = tmp.pow((p + 1) / 2, p);
-//			BigInt ans1 = ans1_.getX().mathMod(p);
-//			BigInt ans2 = p - ans1;
-//			if (ans2 < ans1) {
-//				swap(ans1, ans2);
-//			}
-//			return { ans1, ans2 };
-//		}
-//	}
-//}
-
 
 SqrtPolynomial2::SqrtPolynomial2(BigInt x_, BigInt y_, BigInt w_) {
 	this->x = x_;
@@ -1337,18 +1175,6 @@ string BigInt::present_as_base(int base) {
 	return to_string(base) + "base : " + ans;
 }
 
-//BigInt generate_prime(BigInt seed) {
-//
-//}
-
-string random_number(int bits) {
-	if (bits <= 64) {
-		return to_string(int(dist_2(mt_2)));
-	}
-
-	return random_number(bits / 2) + random_number(bits / 2);
-}
-
 bool low_divisible(const BigInt& a) {
 	auto small_primes = vector<int>{ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
 		73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181,
@@ -1385,8 +1211,7 @@ BigInt ElGamal::getRandomSecretKey() {
 
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	// srand(time(0));
-	
+
 	while (true) {
 		BigInt a,b;
 		int c;
