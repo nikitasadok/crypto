@@ -5,7 +5,7 @@
 #include <chrono>
 #include <random>
 
-#include "larithmetic.h"
+#include "crypto.h"
 
 using namespace std;
 
@@ -246,6 +246,120 @@ istream& operator >> (istream& in, BigInt& bigInt) {
 	in >> s;
 	bigInt = BigInt(s);
 	return in;
+}
+
+bool operator == (BigInt bigInt1, BigInt bigInt2) {
+	if (bigInt1.isNegative != bigInt2.isNegative) {
+		return false;
+	}
+	if (bigInt1.digits.size() != bigInt2.digits.size()) {
+		return false;
+	}
+	for (long long i = 0; i < (long long)bigInt1.digits.size(); i++) {
+		if (bigInt1.digits[i] != bigInt2.digits[i]) {
+			return false;
+		}
+	}
+	return true;
+}
+
+bool operator == (BigInt bigInt1, long long int2) {
+	return bigInt1 == BigInt(int2);
+}
+
+bool operator == (long long int1, BigInt bigInt2) {
+	return BigInt(int1) == bigInt2;
+}
+
+
+bool operator != (BigInt bigInt1, BigInt bigInt2) {
+	return !(bigInt1 == bigInt2);
+}
+
+bool operator != (BigInt bigInt1, long long int2) {
+	return bigInt1 != BigInt(int2);
+}
+
+bool operator != (long long int1, BigInt bigInt2) {
+	return BigInt(int1) != bigInt2;
+}
+
+
+bool operator > (BigInt bigInt1, BigInt bigInt2) {
+	if (bigInt1.isNegative && !bigInt2.isNegative) {
+		return false;
+	}
+	if (!bigInt1.isNegative && bigInt2.isNegative) {
+		return true;
+	}
+
+	if (!bigInt1.isNegative) {
+		if (bigInt1.digits.size() > bigInt2.digits.size()) {
+			return true;
+		}
+		if (bigInt1.digits.size() < bigInt2.digits.size()) {
+			return false;
+		}
+		for (long long i = bigInt1.digits.size() - 1; i >= 0; i--) {
+			if (bigInt1.digits[i] > bigInt2.digits[i]) {
+				return true;
+			}
+			if (bigInt1.digits[i] < bigInt2.digits[i]) {
+				return false;
+			}
+		}
+		return false;
+	}
+	else {
+		return bigInt2.abs() > bigInt1.abs();
+	}
+}
+
+bool operator > (BigInt bigInt1, long long int2) {
+	return bigInt1 > BigInt(int2);
+}
+
+bool operator > (long long int1, BigInt bigInt2) {
+	return BigInt(int1) > bigInt2;
+}
+
+
+bool operator < (BigInt bigInt1, BigInt bigInt2) {
+	return bigInt2 > bigInt1;
+}
+
+bool operator < (BigInt bigInt1, long long int2) {
+	return bigInt1 < BigInt(int2);
+}
+
+bool operator < (long long int1, BigInt bigInt2) {
+	return BigInt(int1) < bigInt2;
+}
+
+
+bool operator >= (BigInt bigInt1, BigInt bigInt2) {
+	return bigInt1 > bigInt2 || bigInt1 == bigInt2;
+}
+
+bool operator >= (BigInt bigInt1, long long int2) {
+	return bigInt1 >= BigInt(int2);
+}
+
+bool operator >= (long long int1, BigInt bigInt2) {
+	return BigInt(int1) >= bigInt2;
+}
+
+
+bool operator <= (BigInt bigInt1, BigInt bigInt2) {
+	return bigInt1 < bigInt2 || bigInt1 == bigInt2;
+}
+
+bool operator <= (BigInt bigInt1, long long int2) {
+	return bigInt1 <= BigInt(int2);
+}
+
+bool operator <= (long long int1, BigInt bigInt2) {
+	return BigInt(int1) <= bigInt2;
 }
 
 /*
@@ -1180,30 +1294,13 @@ bool low_divisible(const BigInt& a) {
 		73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181,
 		191, 193, 197, 199 };
 	for (auto prime : small_primes) {
-		if (a == prime || a % prime == 0)
+		if (a == prime)
+			return false;
+		if (a % prime == 0)
 			return true;
 	}
 	return false;
 }
-//Point ElGamal::getRandomPointOnCurve(long long countRetry = 5) {
-//	if (countRetry == 0) {
-//		return Point(-1, -1);
-//	}
-//	BigInt x = randBigInt(p);
-//	cout << "countRetry = " << countRetry << endl;
-//	cout << "check x = " << x << endl;
-//	BigInt v = (x.pow(3, p) + a * x % p + b) % p;
-//	if (jacobi(v, p) != 1) {
-//		return getRandomPointOnCurve(countRetry - 1);
-//	}
-//	auto y2 = cipolla(v, p);
-//	if (y2.first != -1) {
-//		return Point(x, y2.first);
-//	}
-//	else {
-//		return getRandomPointOnCurve(countRetry - 1);
-//	}
-//}
 
 BigInt ElGamal::getRandomSecretKey() {
 	return randBigInt(p);

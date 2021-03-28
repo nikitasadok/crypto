@@ -65,23 +65,23 @@ public:
 	friend BigInt operator + (const BigInt& bigInt1, const BigInt& bigInt2);
 	friend BigInt operator + (BigInt bigInt1, long long int2);
 	friend BigInt operator + (long long int1, BigInt bigInt2);
-	BigInt& operator += (BigInt other); // not implemented
-	BigInt& operator += (long long other); // not implemented
+	// BigInt& operator += (BigInt other); // not implemented
+	// BigInt& operator += (long long other); // not implemented
 	friend const BigInt operator ++ (BigInt& a, int);
 
 	friend BigInt operator - (const BigInt& bigInt1, const BigInt& bigInt2);
 	friend BigInt operator - (BigInt bigInt1, long long int2);
 	friend BigInt operator - (long long int1, BigInt bigInt2);
 	BigInt operator - ();
-	BigInt& operator -= (BigInt other); // not implemented
-	BigInt& operator -= (long long other); // not implemented
+	// BigInt& operator -= (BigInt other); // not implemented
+	// BigInt& operator -= (long long other); // not implemented
 
 	friend BigInt operator * (BigInt bigInt1, BigInt bigInt2);
 	friend BigInt operator * (BigInt bigInt1, long long int2);
 	friend BigInt operator * (long long int1, BigInt bigInt2);
 	friend BigInt karatsuba(const BigInt& bigInt1, const BigInt& bigInt2);
-	BigInt& operator *= (BigInt other); // not implemented
-	BigInt& operator *= (long long other); // not implemented
+//	BigInt& operator *= (BigInt other); // not implemented
+	//BigInt& operator *= (long long other); // not implemented
 
 	BigInt div2();
 	BigInt mod2();
@@ -89,8 +89,8 @@ public:
 	friend BigInt operator / (BigInt bigInt1, BigInt bigInt2); // not implemented
 	friend BigInt operator / (BigInt bigInt1, long long int2);
 	friend BigInt operator / (long long int1, BigInt bigInt2);
-	BigInt& operator /= (BigInt other); // not implemented
-	BigInt& operator /= (long long other); // not implemented
+	// BigInt& operator /= (BigInt other); // not implemented
+	// BigInt& operator /= (long long other); // not implemented
 
 	friend BigInt operator % (BigInt bigInt1, BigInt bigInt2);
 	friend BigInt operator % (BigInt bigInt1, long long int2);
@@ -112,7 +112,7 @@ BigInt gcd(BigInt a, BigInt b);
 
 BigInt randBigInt(BigInt p);
 
-BigInt rhoPollard(BigInt n, BigInt iterationsCount);
+// BigInt rhoPollard(BigInt n, BigInt iterationsCount);
 BigInt fPollard(BigInt a, BigInt mod);
 BigInt getDivisor(BigInt n, long long countRetry);
 vector<pair<BigInt, BigInt>> rhoPollardFactorization(BigInt n);
@@ -128,7 +128,7 @@ BigInt mobius(BigInt n);
 BigInt legendre(BigInt n, BigInt p);
 BigInt jacobi(BigInt n, BigInt m);
 
-pair<BigInt, BigInt> cipolla(BigInt a, BigInt p, long long countRetry);
+// pair<BigInt, BigInt> cipolla(BigInt a, BigInt p, long long countRetry);
 
 BigInt get_lucas_seq_element(BigInt n, int Q, int D);
 vector<bool> get_element_numbers(BigInt n);
@@ -186,7 +186,7 @@ public:
 	Point mulPoint(BigInt k, Point p1);
 	Point getP();
 	void testPoint(Point p1);
-	Point getRandomPointOnCurve(long long countRetry);
+	// Point getRandomPointOnCurve(long long countRetry);
 	BigInt getRandomSecretKey();
 };
 
