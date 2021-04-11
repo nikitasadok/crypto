@@ -888,8 +888,6 @@ BigInt legendre(BigInt a, BigInt p) {
 
 
 BigInt jacobi(BigInt n, BigInt m) {
-	cout << "n: " << n << endl;
-	cout << "m: " << m << endl;
 	if (gcd(n,m) != 1) {
 		return 0;
 	}
@@ -1151,7 +1149,6 @@ bool psw_prime(BigInt n) {
 	// how to save
 	int k = 1;
 	while (jacobi(D, n) != -1) {
-		cout << D << endl;
 		D *= -1;
 		D += 2 * pow(-1, k);
 		k++;
@@ -1206,11 +1203,11 @@ BigInt get_lucas_seq_element(BigInt n, int Q, int D) {
 	BigInt v2k_add;
 
 	BigInt q = Q;
-	
+
 	BigInt m = n - 1;
 	BigInt two = 2;
 	auto need_to_double = get_element_numbers(n);
-	
+
 
 	for (int k = 0; k < need_to_double.size() - 1; k++) {
 		if (!need_to_double[k]) {
@@ -1232,8 +1229,8 @@ BigInt get_lucas_seq_element(BigInt n, int Q, int D) {
 		if (v2k_add % 2 == 1) {
 			v2k_add = v2k_add + m;
 		}
-		V2k = (v2k_add)  / 2 ; 
-		
+		V2k = (v2k_add) / 2;
+
 		Uk = U2k % m;
 		Vk = V2k % m;
 	}
@@ -1263,10 +1260,16 @@ BigInt rand_num_fixed_bits(int n) {
 
 
 BigInt rand_prime_fixed_bits(int n) {
+	int cnt = 0;
 	BigInt rnd = rand_num_fixed_bits(n);
 	while (!psw_prime(rnd)) {
+		cout << "candidate: " << rnd << endl;
+		if (cnt == 10) {
+			cnt = 0;
+			rnd = rand_num_fixed_bits(n);
+		}
 		rnd = rnd + 2;
-		// rnd = rand_num_fixed_bits(n);
+		cnt++;
 	}
 	return rnd;
 }
@@ -1306,21 +1309,50 @@ BigInt ElGamal::getRandomSecretKey() {
 	return randBigInt(p);
 }
 
-int main() {
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-
-	while (true) {
-		BigInt a,b;
-		int c;
-		cin >> c;
-		auto t1 = chrono::high_resolution_clock::now();
-		cout << rand_prime_fixed_bits(c) << endl;
-		auto t2 = chrono::high_resolution_clock::now();
-		auto ms_int = chrono::duration_cast<chrono::milliseconds>(t2 - t1);
-
-		cout << ms_int.count() << " ms" <<  endl;
+BigInt gcd_extended(BigInt a, BigInt b, BigInt* x, BigInt* y) {
+	if (a == 0)
+	{
+		*x = 0;
+		*y = 1;
+		return b;
 	}
 
-	return 0;
+	BigInt x1, y1;
+	BigInt gcd = gcd_extended(b % a, a, &x1, &y1);
+
+	*x = y1 - (b / a) * x1;
+	*y = x1;
+
+	return gcd;
 }
+
+BigInt reverse_modulo(BigInt a, BigInt m) {
+	BigInt x, y;
+	BigInt g = gcd_extended(a, m, &x, &y);
+	if (g != 1)
+		return -1;
+	else {
+		x = (x % m + m) % m;
+		return x;
+	}
+}
+
+//int main() {
+//	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+//
+//	while (true) {
+//		BigInt a,b;
+//		int c;
+//		cin >> b;
+//		// cin >> c;
+//		auto t1 = chrono::high_resolution_clock::now();
+//		cout << psw_prime(b) << edl;
+//		auto t2 = chrono::high_resolution_clock::now();
+//		auto ms_int = chrono::duration_cast<chrono::milliseconds>(t2 - t1);
+//
+//		cout << ms_int.count() << " ms" <<  endl;
+//	}
+//
+//	return 0;
+//}
 

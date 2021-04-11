@@ -128,6 +128,12 @@ BigInt mobius(BigInt n);
 BigInt legendre(BigInt n, BigInt p);
 BigInt jacobi(BigInt n, BigInt m);
 
+BigInt rand_prime_fixed_bits(int n);
+
+BigInt gcd_extended(BigInt a, BigInt b, BigInt* x, BigInt* y);
+BigInt reverse_modulo(BigInt a, BigInt m);
+
+
 // pair<BigInt, BigInt> cipolla(BigInt a, BigInt p, long long countRetry);
 
 BigInt get_lucas_seq_element(BigInt n, int Q, int D);
@@ -189,4 +195,3 @@ public:
 	// Point getRandomPointOnCurve(long long countRetry);
 	BigInt getRandomSecretKey();
 };
-
